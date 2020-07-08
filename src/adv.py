@@ -45,13 +45,24 @@ is_playing = True
 
 while is_playing:
     players_name = input("hello, stranger! What's your name: ")
-    player = Player(players_name)
+    player = Player(players_name, room["outside"])
     print("Let me tell you how it works. To go North - enter 'n', East - 'e', South - 's', West - 'w', to quit the game - 'q'")
-    print(f"Right now you're at the {player.current_room}")
-    print(room[player.current_room].description)
+    print(f"Right now you're at the {player.current_room.name}")
+    print(player.current_room.description)
     while is_playing:
         user_action = input("What do you want to do? Answer: ")
-        is_playing = False
+        if user_action == "q":
+            is_playing = Falsef
+        elif user_action[0] in ["n", "e", "s", "w"]:
+            move_to = f"{user_action}_to"
+            target_room = getattr(player.current_room, move_to)
+            if target_room:
+                player.current_room = target_room
+                print(f"Right now you're at the {player.current_room.name}")
+                print(player.current_room.description)  
+        else:
+            print("You shall not pass!!! Ectually, there's nothing in this direction")
+        
 #
 # Main
 #
