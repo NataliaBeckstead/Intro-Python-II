@@ -11,5 +11,3 @@ class Room:
     def __str__(self):
         return 'Name: {self.name}, description: {self.description}, items: {self.items}, light: {self.is_light}'.format(self=self)
 
-room = Room("Room's name", "some description", True, ["item1", "item2"])
-print(room)
