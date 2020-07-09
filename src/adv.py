@@ -4,12 +4,12 @@ from item import Item
 
 # Declare all items
 
-apple = Item("Apple", "Apples are the ideal fruit to eat at any time")
-sword = Item("Sword", "The blade has some moderate damage. It was crafted by Gino Minnelli , in the Heritu.")
-dust = Item("Dust", "Could it be useful?")
-coin = Item("Golden coin", "Some gold always can be handy")
-helmet = Item("Helmet", "Protect your head is always a good idea")
-tresure = Item("Hidden tresure", "Good thing you decided to search carefully and bring some light! Here it is behing big rock! Desired tresure!!!")
+apple = Item("apple", "Apples are the ideal fruit to eat at any time")
+sword = Item("sword", "The blade has some moderate damage. It was crafted by Gino Minnelli , in the Heritu.")
+dust = Item("dust", "Could it be useful?")
+coin = Item("coin", "Some gold always can be handy")
+helmet = Item("helmet", "Protect your head is always a good idea")
+tresure = Item("tresure", "Good thing you decided to search carefully and bring some light! Here it is behing big rock! Desired tresure!!!")
 
 
 # Declare all the rooms
@@ -56,6 +56,7 @@ is_playing = True
 help_message = """-----------------------------------------
 To go North - enter 'n', East - 'e', South - 's', West - 'w'
 To pick up an item - 'get [ITEM_NAME]'\nTo drop item - 'drop [ITEM_NAME]'
+To look around - 'look'
 To see inventory - 'i'\nFor help message with instructions - 'h'\nTo quit the game - 'q'
 -----------------------------------------"""
 # "Let there be LIGHT!"
@@ -80,23 +81,35 @@ while is_playing:
                 print("You have:")
                 for item in player.items:
                     print(item.name)
+        elif user_action == 'look':
+            if player.current_room.is_light:
+                if len(player.current_room.items) > 0:
+                    print("You can see:")
+                    for item in player.current_room.items:
+                        print(item.name)
+                else:
+                    print("The room is empty.")
+            else:
+                print("It's too dark here. Can't see anything.")
         elif user_action[0] in ["n", "e", "s", "w"]:
             move_to = f"{user_action}_to"
             target_room = getattr(player.current_room, move_to)
             if target_room:
                 player.current_room = target_room
                 print(f"Right now you're at the {player.current_room.name}")
-                print(player.current_room.description)
-                user_action = input("Do you want to look around? Yes/No: ")
-                if user_action.lower() == "yes":
-                    if player.current_room.is_light:
-                        print("You can see:")
-                        for item in player.current_room.items:
-                            print(item.name)
-                    else:
-                        print("It's too dark here. Can't see anything.")
+                print(player.current_room.description)        
             else:
                 print("You shall not pass!!! Ectually, there's nothing in this direction")  
+        elif user_action.startswith("get "):
+            i = 0      # checking if we was able to get anything
+            for item in player.current_room.items:
+                    if item.name == user_action[4:]:
+                        print(f"{user_action[4:]} is now yours!")
+                        player.items.append(item)
+                        player.current_room.items.remove(item)
+                        i +=1
+            if i == 0:
+                print("You can't get this")    
         else:
             print("You shall not pass!!! Ectually, there's nothing in this direction")
         
