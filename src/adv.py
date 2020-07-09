@@ -53,17 +53,32 @@ room['narrow'].n_to = room['treasure']
 room['treasure'].s_to = room['narrow']
 
 is_playing = True
+help_message = """-----------------------------------------
+To go North - enter 'n', East - 'e', South - 's', West - 'w'
+To pick up an item - 'get [ITEM_NAME]'\nTo drop item - 'drop [ITEM_NAME]'
+To see inventory - 'i'\nFor help message with instructions - 'h'\nTo quit the game - 'q'
+-----------------------------------------"""
 
 while is_playing:
     players_name = input("hello, stranger! What's your name: ")
     player = Player(players_name, room["outside"])
-    print("Let me tell you how it works. To go North - enter 'n', East - 'e', South - 's', West - 'w', to quit the game - 'q'")
+    print("Let me tell you how it works.")
+    print(help_message)
     print(f"Right now you're at the {player.current_room.name}")
     print(player.current_room.description)
     while is_playing:
         user_action = input("What do you want to do? Answer: ")
         if user_action == "q":
             is_playing = False
+        elif user_action == "h":
+            print(help_message)
+        elif user_action == 'i':
+            if len(player.items) == 0:
+                print("You are broke!")
+            else:
+                print("You have:")
+                for item in player.items:
+                    print(item.name)
         elif user_action[0] in ["n", "e", "s", "w"]:
             move_to = f"{user_action}_to"
             target_room = getattr(player.current_room, move_to)
@@ -71,6 +86,11 @@ while is_playing:
                 player.current_room = target_room
                 print(f"Right now you're at the {player.current_room.name}")
                 print(player.current_room.description)
+                user_action = input("Do you want to look around? Yes/No: ")
+                if user_action.lower() == "yes":
+                    print("You can see:")
+                    for item in player.current_room.items:
+                        print(item.name)
             else:
                 print("You shall not pass!!! Ectually, there's nothing in this direction")  
         else:
