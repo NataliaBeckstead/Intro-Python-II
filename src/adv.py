@@ -1,6 +1,9 @@
+import random
+
 from room import Room
 from player import Player
 from item import Item
+from rock_game import rock_paper_scissor_game
 
 # Declare all items
 
@@ -98,7 +101,15 @@ while is_playing:
             if target_room:
                 player.current_room = target_room
                 print(f"Right now you're at the {player.current_room.name}")
-                print(player.current_room.description)        
+                print(player.current_room.description)
+                if random.randint(1,3) == 1:
+                    print("You met a stranger!")
+                    answer = input("Do you want to play with him? yes/no: ")
+                    if answer == "yes":
+                        if rock_paper_scissor_game():
+                            print("You won!!!")
+                        else:
+                            print("You've lost. Maybe next time")
             else:
                 print("You shall not pass!!! Ectually, there's nothing in this direction")  
         elif user_action.startswith("get "):
@@ -133,20 +144,10 @@ while is_playing:
                 print("You don't have it")
         else:
             print("You shall not pass!!! Ectually, there's nothing in this direction")
-        
-#
-# Main
-#
 
-# Make a new player object that is currently in the 'outside' room.
+""" TODO:
+add a randomly showing up stranger
+If he show up - he offers to play rock scissors paper
+If user won first time  -  give him a lanter
 
-# Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+"""
