@@ -1,5 +1,16 @@
 from room import Room
 from player import Player
+from item import Item
+
+# Declare all items
+
+apple = Item("Apple", "Apples are the ideal fruit to eat at any time")
+sword = Item("Sword", "The blade has some moderate damage. It was crafted by Gino Minnelli , in the Heritu.")
+dust = Item("Dust", "Could it be useful?")
+coin = Item("Golden coin", "Some gold always can be handy")
+helmet = Item("Helmet", "Protect your head is always a good idea")
+tresure = Item("Hidden tresure", "Good thing you decided to search carefully and bring some light! Here it is behing big rock! Desired tresure!!!")
+
 
 # Declare all the rooms
 
@@ -7,27 +18,27 @@ room = {
     'outside':  Room("Outside Cave Entrance",
                      "North of you, the cave mount beckons",
                      True,
-                     ["sword", "apple"]),
+                     [sword, apple]),
 
     'foyer':    Room("Foyer", 
                      "Dim light filters in from the south. Dusty passages run north and east.",
                      True,
-                     ["dust", "golden coin"]),
+                     [dust, coin]),
 
     'overlook': Room("Grand Overlook", 
                      "A steep cliff appears before you, falling into the darkness. Ahead to the north, a light flickers in the distance, but there is no way across the chasm.", 
                      False,
-                     ["helmet"]),
+                     [helmet, apple]),
 
     'narrow':   Room("Narrow Passage", 
                      "The narrow passage bends here from west to north. The smell of gold permeates the air.",
                      False,
-                     ["dust"]),
+                     [dust]),
 
     'treasure': Room("Treasure Chamber", 
                      "You've found the long-lost treasure chamber! Sadly, it has already been completely emptied by earlier adventurers. The only exit is to the south.",
                      False,
-                     ["hidden tresure"]),
+                     [tresure]),
 }
 
 # Link rooms together
@@ -52,14 +63,16 @@ while is_playing:
     while is_playing:
         user_action = input("What do you want to do? Answer: ")
         if user_action == "q":
-            is_playing = Falsef
+            is_playing = False
         elif user_action[0] in ["n", "e", "s", "w"]:
             move_to = f"{user_action}_to"
             target_room = getattr(player.current_room, move_to)
             if target_room:
                 player.current_room = target_room
                 print(f"Right now you're at the {player.current_room.name}")
-                print(player.current_room.description)  
+                print(player.current_room.description)
+            else:
+                print("You shall not pass!!! Ectually, there's nothing in this direction")  
         else:
             print("You shall not pass!!! Ectually, there's nothing in this direction")
         
