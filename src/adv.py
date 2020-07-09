@@ -109,7 +109,17 @@ while is_playing:
                         player.current_room.items.remove(item)
                         i +=1
             if i == 0:
-                print("You can't get this")    
+                print("You can't get this")
+        elif user_action.startswith("drop "):
+            i = 0      # checking if we was able to drop anything
+            for item in player.items:
+                    if item.name == user_action[5:]:
+                        print(f"You get rid of {user_action[5:]}!")
+                        player.items.remove(item)
+                        player.current_room.items.append(item)
+                        i +=1
+            if i == 0:
+                print("You don't have it")
         else:
             print("You shall not pass!!! Ectually, there's nothing in this direction")
         
