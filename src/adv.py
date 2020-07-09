@@ -58,6 +58,7 @@ To go North - enter 'n', East - 'e', South - 's', West - 'w'
 To pick up an item - 'get [ITEM_NAME]'\nTo drop item - 'drop [ITEM_NAME]'
 To see inventory - 'i'\nFor help message with instructions - 'h'\nTo quit the game - 'q'
 -----------------------------------------"""
+# "Let there be LIGHT!"
 
 while is_playing:
     players_name = input("hello, stranger! What's your name: ")
@@ -88,9 +89,12 @@ while is_playing:
                 print(player.current_room.description)
                 user_action = input("Do you want to look around? Yes/No: ")
                 if user_action.lower() == "yes":
-                    print("You can see:")
-                    for item in player.current_room.items:
-                        print(item.name)
+                    if player.current_room.is_light:
+                        print("You can see:")
+                        for item in player.current_room.items:
+                            print(item.name)
+                    else:
+                        print("It's too dark here. Can't see anything.")
             else:
                 print("You shall not pass!!! Ectually, there's nothing in this direction")  
         else:
