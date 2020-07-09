@@ -55,7 +55,8 @@ room['treasure'].s_to = room['narrow']
 is_playing = True
 help_message = """-----------------------------------------
 To go North - enter 'n', East - 'e', South - 's', West - 'w'
-To pick up an item - 'get [ITEM_NAME]'\nTo drop item - 'drop [ITEM_NAME]'
+To pick up an item - 'get [ITEM_NAME]' or 'take [ITEM_NAME]'
+To drop item - 'drop [ITEM_NAME]'
 To look around - 'look'
 To see inventory - 'i'\nFor help message with instructions - 'h'\nTo quit the game - 'q'
 -----------------------------------------"""
@@ -105,6 +106,16 @@ while is_playing:
             for item in player.current_room.items:
                     if item.name == user_action[4:]:
                         print(f"{user_action[4:]} is now yours!")
+                        player.items.append(item)
+                        player.current_room.items.remove(item)
+                        i +=1
+            if i == 0:
+                print("You can't get this")
+        elif user_action.startswith("take "):
+            i = 0      # checking if we was able to get anything
+            for item in player.current_room.items:
+                    if item.name == user_action[5:]:
+                        print(f"{user_action[5:]} is now yours!")
                         player.items.append(item)
                         player.current_room.items.remove(item)
                         i +=1
